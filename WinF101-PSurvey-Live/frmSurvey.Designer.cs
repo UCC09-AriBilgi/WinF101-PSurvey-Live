@@ -36,11 +36,9 @@
             rbtnMaybe = new RadioButton();
             btonPrev = new Button();
             btonNext = new Button();
-            dgrdQuestions = new DataGridView();
             btonSave = new Button();
-            tboxUserID = new TextBox();
+            lbelQNo = new Label();
             grpbOption.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgrdQuestions).BeginInit();
             SuspendLayout();
             // 
             // btonClose
@@ -58,7 +56,7 @@
             // 
             tboxQuestion.Enabled = false;
             tboxQuestion.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
-            tboxQuestion.Location = new Point(96, 167);
+            tboxQuestion.Location = new Point(96, 63);
             tboxQuestion.Multiline = true;
             tboxQuestion.Name = "tboxQuestion";
             tboxQuestion.Size = new Size(603, 174);
@@ -81,7 +79,7 @@
             grpbOption.Controls.Add(rbtnNo);
             grpbOption.Controls.Add(rbtnMaybe);
             grpbOption.Controls.Add(rbtnYes);
-            grpbOption.Location = new Point(96, 338);
+            grpbOption.Location = new Point(96, 243);
             grpbOption.Name = "grpbOption";
             grpbOption.Size = new Size(603, 100);
             grpbOption.TabIndex = 3;
@@ -113,36 +111,28 @@
             // 
             // btonPrev
             // 
-            btonPrev.Location = new Point(12, 239);
+            btonPrev.Location = new Point(12, 126);
             btonPrev.Name = "btonPrev";
             btonPrev.Size = new Size(75, 23);
             btonPrev.TabIndex = 5;
             btonPrev.Text = "Önceki";
             btonPrev.UseVisualStyleBackColor = true;
+            btonPrev.Click += btonPrev_Click;
             // 
             // btonNext
             // 
-            btonNext.Location = new Point(713, 239);
+            btonNext.Location = new Point(720, 137);
             btonNext.Name = "btonNext";
             btonNext.Size = new Size(75, 23);
             btonNext.TabIndex = 6;
             btonNext.Text = "Sonraki";
             btonNext.UseVisualStyleBackColor = true;
-            // 
-            // dgrdQuestions
-            // 
-            dgrdQuestions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgrdQuestions.Location = new Point(96, 11);
-            dgrdQuestions.Name = "dgrdQuestions";
-            dgrdQuestions.RowTemplate.Height = 25;
-            dgrdQuestions.Size = new Size(603, 150);
-            dgrdQuestions.TabIndex = 7;
-            dgrdQuestions.CellClick += dgrdQuestions_CellClick;
+            btonNext.Click += btonNext_Click;
             // 
             // btonSave
             // 
             btonSave.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            btonSave.Location = new Point(96, 462);
+            btonSave.Location = new Point(96, 349);
             btonSave.Name = "btonSave";
             btonSave.Size = new Size(78, 36);
             btonSave.TabIndex = 8;
@@ -150,12 +140,15 @@
             btonSave.UseVisualStyleBackColor = true;
             btonSave.Click += btonSave_Click;
             // 
-            // tboxUserID
+            // lbelQNo
             // 
-            tboxUserID.Location = new Point(713, 12);
-            tboxUserID.Name = "tboxUserID";
-            tboxUserID.Size = new Size(47, 23);
-            tboxUserID.TabIndex = 9;
+            lbelQNo.AutoSize = true;
+            lbelQNo.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lbelQNo.Location = new Point(96, 28);
+            lbelQNo.Name = "lbelQNo";
+            lbelQNo.Size = new Size(102, 25);
+            lbelQNo.TabIndex = 9;
+            lbelQNo.Text = "Soru No : ";
             // 
             // frmSurvey
             // 
@@ -163,21 +156,19 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(849, 497);
             ControlBox = false;
-            Controls.Add(tboxUserID);
+            Controls.Add(lbelQNo);
             Controls.Add(btonSave);
-            Controls.Add(dgrdQuestions);
             Controls.Add(btonNext);
             Controls.Add(btonPrev);
             Controls.Add(grpbOption);
             Controls.Add(tboxQuestion);
             Controls.Add(btonClose);
             Name = "frmSurvey";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmSurvey";
-            WindowState = FormWindowState.Maximized;
             Load += frmSurvey_Load;
             grpbOption.ResumeLayout(false);
             grpbOption.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgrdQuestions).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -192,8 +183,7 @@
         private RadioButton rbtnMaybe;
         private Button btonPrev;
         private Button btonNext;
-        private DataGridView dgrdQuestions;
         private Button btonSave;
-        private TextBox tboxUserID;
+        private Label lbelQNo;
     }
 }

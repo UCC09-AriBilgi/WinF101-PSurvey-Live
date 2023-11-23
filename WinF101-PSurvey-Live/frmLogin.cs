@@ -47,10 +47,8 @@ namespace WinF101_PSurvey_Live
 
             vs_SQLSelect = "SELECT UserID FROM datUSER WHERE UserName='" + tboxUserName.Text.Trim() + "' AND UserPass='" + tboxUserPass.Text.Trim() + "'";
 
-
             try
             {
-
                 using (SqlConnection connection = new SqlConnection(vs_ConnStr))
                 {
                     using (SqlCommand command = new SqlCommand(vs_SQLSelect, connection))
@@ -70,16 +68,11 @@ namespace WinF101_PSurvey_Live
 
                                     // ilk login ekranından öğrendiğim UserID yi global bir yerde tutup...anket kayıt edilirken elle manuel yazmış olduğumuz PID=1 yazmıştık....PID=2 yapmak istiyorum.
 
-                                    vi_UserID = Convert.ToInt32(dset.Tables[0].Rows[0]["UserID"]);
+                                    GlobalClass.UserID = (int)dset.Tables[0].Rows[0]["UserID"];
 
                                     frmMain frmMain = new frmMain();
 
                                     this.Hide(); // Login formunu kapatmak yerine görünürlüğünü kapatıyorum.
-                                    frmSurvey frmSurvey = new frmSurvey();
-                                    // içine gizli kullanıcı no yu yerleştirecem
-                                    
-
-
 
                                     frmMain.ShowDialog();
                                 }

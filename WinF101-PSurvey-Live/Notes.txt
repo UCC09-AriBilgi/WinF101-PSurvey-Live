@@ -4,3 +4,5 @@
 - Sisteme yeni kullanıcı kaydı yapacak bir form olsun.
 
 + Sistemdeki tüm ConnectionString olayının tek bir yerde toparlanması (configuration.Manager)
+
+- Formlar arası veri taşıma yapalım ama bir class yardımıyla

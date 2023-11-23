@@ -14,9 +14,8 @@ namespace WinF101_PSurvey_Live
 {
     public partial class frmSurvey : Form
     {
-        // Tüm uygulama dahilinde geçerli olması için değişgenlerimi burada yaratıyorum
-        //string vs_ConnStr = @"Data Source=BILCE;Initial Catalog=Northwind;TrustServerCertificate=True;Persist Security Info=False;Encrypt=False;"; // Connection String : veritabanına bağlanma için
         string vs_ConnStr = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
         string vs_SQLCommand; // SQL Command : SQL tarafın çalışacak SQL Komutları
 
         string vs_Query; // Sorgulamalarda kullanacağım SQL Kriter cümleciğini tutacak...
@@ -25,6 +24,10 @@ namespace WinF101_PSurvey_Live
         string vs_SQLInsert;
 
         string Mod; // C,U,D Create Update Delete
+
+        DataSet dset; // baştan tanımladım..aşada doldurcam içini
+
+        int vi_QRecordIndex;
 
         public frmSurvey()
         {
@@ -43,46 +46,11 @@ namespace WinF101_PSurvey_Live
             // 3. next tusuna basıldığında bir sonraki soruya geçilir
             // 4. prev tusuna basıldığında bir onceki soruya geçilir
             // Not. ilk veya son yayıt durumundaysam ilgili butonlar desaktif olabilir.
-            PrepareGrid();
+
             BindQuestions();
 
-
         }
-        private void PrepareGrid()
-        {
-            // Ekrandaki datagrid i ayarlar...
 
-            // Set AutoGenerateColumns --> false
-            dgrdQuestions.AutoGenerateColumns = false;
-
-            // Set AllowUser..false...ekrandan grid üzerinden kayıt ekleme yapmasın...benim butonuma mahkum olsun. 
-            dgrdQuestions.AllowUserToAddRows = false;
-            dgrdQuestions.AllowUserToDeleteRows = false;
-
-            // Set AutoSizeColumnsMode --> Fill -- colonların genişlikleriyle ilgili
-            dgrdQuestions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgrdQuestions.RowHeadersVisible = false;
-
-            dgrdQuestions.AllowUserToResizeRows = false;
-
-            dgrdQuestions.ReadOnly = true;
-
-            dgrdQuestions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dgrdQuestions.ColumnCount = 2;
-
-            // Add columns
-
-            dgrdQuestions.Columns[0].Name = "QID";
-            dgrdQuestions.Columns[0].HeaderText = "QuestionID";
-            dgrdQuestions.Columns[0].DataPropertyName = "QID";
-
-            dgrdQuestions.Columns[1].Name = "QText";
-            dgrdQuestions.Columns[1].HeaderText = "QText";
-            dgrdQuestions.Columns[1].DataPropertyName = "QText";
-
-        }
         private void BindQuestions()
         {
             // VT nındaki bilgileri alıp DG içine gömmek için
@@ -97,17 +65,24 @@ namespace WinF101_PSurvey_Live
 
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
-                        using (DataSet dset = new DataSet())
-                        {
-                            adapter.Fill(dset);
+                        dset = new DataSet();
 
-                            dgrdQuestions.DataSource = dset.Tables[0];
+                        adapter.Fill(dset);
 
+                        GlobalClass.QID = (int)dset.Tables[0].Rows[0]["QID"]; // dset ilk kayıdın soru numarasını alıp class a koyuyorum
 
+                        tboxQuestion.Text = dset.Tables[0].Rows[0]["QText"].ToString();
+                        // şu an aslında ilk kayıttayım.Önceki butonuna basamamalıyım.
 
+                        lbelQNo.Text += GlobalClass.QID.ToString();
 
+                        btonPrev.Enabled = false;
 
-                        }
+                        //using (DataSet dset = new DataSet())
+                        //{
+                        //    adapter.Fill(dset);
+
+                        //}
                     }
                 }
 
@@ -116,21 +91,21 @@ namespace WinF101_PSurvey_Live
 
         }
 
-        private void dgrdQuestions_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            tboxQuestion.Text = dgrdQuestions.CurrentRow.Cells[1].Value.ToString();
-        }
+        //private void dgrdQuestions_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    tboxQuestion.Text = dgrdQuestions.CurrentRow.Cells[1].Value.ToString();
+        //}
 
         private void btonSave_Click(object sender, EventArgs e)
         {
-            int vi_Option=0;
+            int vi_Option = 0;
             var frmLogin = new frmLogin();
 
 
             vs_SQLInsert = "INSERT INTO datPQA (PID,SurveyID,QID,OptID) VALUES (";
 
-            vs_SQLInsert += frmLogin.vi_UserID.ToString()
-                + ",1," + dgrdQuestions.CurrentRow.Cells[0].Value + ",";
+            //vs_SQLInsert += frmLogin.vi_UserID.ToString()
+            //+ ",1," + dgrdQuestions.CurrentRow.Cells[0].Value + ",";
 
             if (rbtnYes.Checked)
             {
@@ -181,6 +156,42 @@ namespace WinF101_PSurvey_Live
 
         }
 
+        private void btonPrev_Click(object sender, EventArgs e)
+        {
+            if (vi_QRecordIndex >= 0)
+            {
+                btonNext.Enabled = true;
+
+                tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
+
+                GlobalClass.QID--;
+                
+                lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+
+            }
+            else
+            {
+                btonPrev.Enabled = false;
+            }
+        }
+
+        private void btonNext_Click(object sender, EventArgs e)
+        {
+            if (vi_QRecordIndex <= dset.Tables[0].Rows.Count-1)
+            {
+                btonPrev.Enabled = true;
+
+                tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
+                
+                GlobalClass.QID++;
+                
+                lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+            }
+            else
+            {
+                btonNext.Enabled = false;
+            }
+        }
     }
 }
 
