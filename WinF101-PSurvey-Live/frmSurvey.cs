@@ -27,7 +27,7 @@ namespace WinF101_PSurvey_Live
 
         DataSet dset; // baştan tanımladım..aşada doldurcam içini
 
-        int vi_SoruNo;
+        int vi_Index=0; // başlangıç değeri
 
         public frmSurvey()
         {
@@ -69,14 +69,15 @@ namespace WinF101_PSurvey_Live
 
                         adapter.Fill(dset);
 
+                        // DB deki soru no
                         GlobalClass.QID = (int)dset.Tables[0].Rows[0]["QID"]; // dset ilk kayıdın soru numarasını alıp class a koyuyorum
 
-                        tboxQuestion.Text = dset.Tables[0].Rows[0]["QText"].ToString();
+                        //vi_Index = GlobalClass.QID-1;
+                        
+                        tboxQuestion.Text = dset.Tables[0].Rows[vi_Index]["QText"].ToString();
                         // şu an aslında ilk kayıttayım.Önceki butonuna basamamalıyım.
 
-                        lbelQNo.Text += GlobalClass.QID.ToString();
-
-                        vi_SoruNo = GlobalClass.QID;
+                        lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
 
                         btonPrev.Enabled = false;
 
@@ -150,14 +151,14 @@ namespace WinF101_PSurvey_Live
 
         private void btonPrev_Click(object sender, EventArgs e)
         {
-            vi_SoruNo = vi_SoruNo - 1;
-
-
+            vi_Index = vi_Index - 1;
 
             // ilk girişte yasaklı olan btonPrev i yasağı kaldırdı
-            if (vi_SoruNo < 0)
+            if (vi_Index < 0)
             {
                 btonPrev.Enabled = false;
+
+                vi_Index = 0;
 
             }
             else
@@ -165,10 +166,10 @@ namespace WinF101_PSurvey_Live
 
                 btonPrev.Enabled = true; //yasaklamış olduğum durumun yasağını kaldır.
 
-                //GlobalClass.QID++;
-                tboxQuestion.Text= dset.Tables[0].Rows[vi_SoruNo]["QText"].ToString();
+                //GlobalClass.QID--;
+                tboxQuestion.Text= dset.Tables[0].Rows[vi_Index]["QText"].ToString();
 
-                lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
+                lbelQNo.Text = "Soru No : " + GlobalClass.QID--.ToString();
 
             }
 
@@ -176,19 +177,20 @@ namespace WinF101_PSurvey_Live
 
         private void btonNext_Click(object sender, EventArgs e)
         {
-            vi_SoruNo = vi_SoruNo + 1; // bir sonraki soruya geç
+            vi_Index = vi_Index + 1; // bir sonraki soruya geç
+
 
             // ilk girişte yasaklı olan btonPrev i yasağı kaldırdı
-            if (vi_SoruNo > 0 && vi_SoruNo < dset.Tables[0].Rows.Count)
+            if (vi_Index > 0 && vi_Index < dset.Tables[0].Rows.Count)
             {
                 btonPrev.Enabled = true; //yasaklamış olduğum durumun yasağını kaldır.
 
                 //GlobalClass.QID++;
 
-                tboxQuestion.Text = dset.Tables[0].Rows[vi_SoruNo]["QText"].ToString(); // yeni sorunun textini göster.
+                tboxQuestion.Text = dset.Tables[0].Rows[vi_Index]["QText"].ToString(); // yeni sorunun textini göster.
 
-                lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
-
+                //lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
+                lbelQNo.Text = "Soru No : " + GlobalClass.QID++.ToString();
             }
             else
             {
