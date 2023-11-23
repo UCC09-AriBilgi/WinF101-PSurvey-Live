@@ -27,8 +27,6 @@ namespace WinF101_PSurvey_Live
 
         DataSet dset; // baştan tanımladım..aşada doldurcam içini
 
-        int vi_QRecordIndex;
-
         public frmSurvey()
         {
             InitializeComponent();
@@ -78,11 +76,6 @@ namespace WinF101_PSurvey_Live
 
                         btonPrev.Enabled = false;
 
-                        //using (DataSet dset = new DataSet())
-                        //{
-                        //    adapter.Fill(dset);
-
-                        //}
                     }
                 }
 
@@ -90,11 +83,6 @@ namespace WinF101_PSurvey_Live
 
 
         }
-
-        //private void dgrdQuestions_CellClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    tboxQuestion.Text = dgrdQuestions.CurrentRow.Cells[1].Value.ToString();
-        //}
 
         private void btonSave_Click(object sender, EventArgs e)
         {
@@ -158,39 +146,58 @@ namespace WinF101_PSurvey_Live
 
         private void btonPrev_Click(object sender, EventArgs e)
         {
-            if (vi_QRecordIndex >= 0)
-            {
-                btonNext.Enabled = true;
+            //if (vi_QRecordIndex >= 0)
+            //{
+            //    btonNext.Enabled = true;
 
-                tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
+            //    tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
 
-                GlobalClass.QID--;
+            //    GlobalClass.QID--;
                 
-                lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+            //    lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
 
-            }
-            else
-            {
-                btonPrev.Enabled = false;
-            }
+            //}
+            //else
+            //{
+            //    btonPrev.Enabled = false;
+            //}
         }
 
         private void btonNext_Click(object sender, EventArgs e)
         {
-            if (vi_QRecordIndex <= dset.Tables[0].Rows.Count-1)
-            {
-                btonPrev.Enabled = true;
+            //GlobalClass.QID++; // Default soruyu bir artırdı
 
-                tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
-                
-                GlobalClass.QID++;
-                
+            //tboxQuestion.Text = dset.Tables[0].Rows[GlobalClass.QID++]["QText"].ToString(); // sorunun içeriğini textbox a yerleştirdi.
+
+            // ilk girişte yasaklı olan btonPrev i yasağı kaldırdı
+            if (GlobalClass.QID >= 1 && GlobalClass.QID < dset.Tables[0].Rows.Count-1)
+            {
+                btonPrev.Enabled = true; //yasaklamış olduğum durumun yasağını kaldır.
+
                 lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+
+                tboxQuestion.Text = dset.Tables[0].Rows[GlobalClass.QID++]["QText"].ToString(); // yeni sorunun textini göster.
+
             }
             else
             {
                 btonNext.Enabled = false;
             }
+
+            //if (GlobalClass.QID <= dset.Tables[0].Rows.Count-1)
+            //{
+            //    btonPrev.Enabled = true;
+
+            //    tboxQuestion.Text = dset.Tables[0].Rows[vi_QRecordIndex++]["QText"].ToString();
+                
+            //    GlobalClass.QID++;
+                
+            //    lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+            //}
+            //else
+            //{
+            //    btonNext.Enabled = false;
+            //}
         }
     }
 }
