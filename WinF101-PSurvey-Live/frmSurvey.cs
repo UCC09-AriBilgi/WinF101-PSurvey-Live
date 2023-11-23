@@ -168,7 +168,7 @@ namespace WinF101_PSurvey_Live
                 btonPrev.Enabled = true; //yasaklamış olduğum durumun yasağını kaldır.
 
                 //GlobalClass.QID--;
-                tboxQuestion.Text= dset.Tables[0].Rows[vi_Index]["QText"].ToString();
+                tboxQuestion.Text= dset.Tables[0].Rows[vi_SoruNo-1]["QText"].ToString();
 
                 lbelQNo.Text = "Soru No : " + vi_SoruNo--.ToString();
 
@@ -188,7 +188,7 @@ namespace WinF101_PSurvey_Live
 
                 //GlobalClass.QID++;
 
-                tboxQuestion.Text = dset.Tables[0].Rows[vi_Index]["QText"].ToString(); // yeni sorunun textini göster.
+                tboxQuestion.Text = dset.Tables[0].Rows[vi_SoruNo]["QText"].ToString(); // yeni sorunun textini göster.
 
                 //lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
                 lbelQNo.Text = "Soru No : " + vi_SoruNo++.ToString();
