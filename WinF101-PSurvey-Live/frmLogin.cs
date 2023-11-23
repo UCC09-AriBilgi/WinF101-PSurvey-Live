@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace WinF101_PSurvey_Live
 {
@@ -15,7 +16,7 @@ namespace WinF101_PSurvey_Live
     {
         // Tüm uygulama dahilinde geçerli olması için değişgenlerimi burada yaratıyorum
         //string vs_ConnStr = @"Data Source=BILCE;Initial Catalog=Northwind;TrustServerCertificate=True;Persist Security Info=False;Encrypt=False;"; // Connection String : veritabanına bağlanma için
-        string vs_ConnStr = "Server = 94.73.170.45 ; Database = u7173324_PSurvey; user id=u7173324_PSurvey;password=rB3_:G3=Tm.b0Kb8; Trusted_Connection = False;Encrypt=false;"; // Connection String : veritabanına bağlanma için
+        string vs_ConnStr = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         string vs_SQLCommand; // SQL Command : SQL tarafın çalışacak SQL Komutları
 
         string vs_Query; // Sorgulamalarda kullanacağım SQL Kriter cümleciğini tutacak...

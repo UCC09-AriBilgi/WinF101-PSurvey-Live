@@ -2,3 +2,5 @@
 (db tarafında bir kullanıcı tablosu olacak buraka kayıt olunacak,ve buradaki kullanıcının girmesi sağlanacak)--> Signup/Login Form --> db tarafında datUser diye bir tablo olacak...
 
 - Sisteme yeni kullanıcı kaydı yapacak bir form olsun.
+
++ Sistemdeki tüm ConnectionString olayının tek bir yerde toparlanması (configuration.Manager)
