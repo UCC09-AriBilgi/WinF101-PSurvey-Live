@@ -28,6 +28,7 @@ namespace WinF101_PSurvey_Live
         DataSet dset; // baştan tanımladım..aşada doldurcam içini
 
         int vi_Index=0; // başlangıç değeri
+        int vi_SoruNo = 1;
 
         public frmSurvey()
         {
@@ -77,7 +78,7 @@ namespace WinF101_PSurvey_Live
                         tboxQuestion.Text = dset.Tables[0].Rows[vi_Index]["QText"].ToString();
                         // şu an aslında ilk kayıttayım.Önceki butonuna basamamalıyım.
 
-                        lbelQNo.Text = "Soru No : " + GlobalClass.QID.ToString();
+                        lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
 
                         btonPrev.Enabled = false;
 
@@ -169,7 +170,7 @@ namespace WinF101_PSurvey_Live
                 //GlobalClass.QID--;
                 tboxQuestion.Text= dset.Tables[0].Rows[vi_Index]["QText"].ToString();
 
-                lbelQNo.Text = "Soru No : " + GlobalClass.QID--.ToString();
+                lbelQNo.Text = "Soru No : " + vi_SoruNo--.ToString();
 
             }
 
@@ -190,7 +191,7 @@ namespace WinF101_PSurvey_Live
                 tboxQuestion.Text = dset.Tables[0].Rows[vi_Index]["QText"].ToString(); // yeni sorunun textini göster.
 
                 //lbelQNo.Text = "Soru No : " + vi_SoruNo.ToString();
-                lbelQNo.Text = "Soru No : " + GlobalClass.QID++.ToString();
+                lbelQNo.Text = "Soru No : " + vi_SoruNo++.ToString();
             }
             else
             {
